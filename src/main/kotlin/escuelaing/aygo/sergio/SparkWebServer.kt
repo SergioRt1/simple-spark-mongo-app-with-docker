@@ -22,8 +22,8 @@ class SparkWebServer(private val wordsRepository: WordsRepository) {
         private fun getPort(): Int = System.getenv("PORT")?.toInt() ?: 4567
     }
 
-    private fun getWordsFromAPI(): String = wordsRepository.find(10).fold("") { acc, word ->
-        "$acc<br>$word"
+    private fun getWordsFromAPI(): String = wordsRepository.find(10).foldIndexed("") { index, acc, word ->
+        "$acc<br>${index + 1}. ${word.word}, ${word.date}"
     }.ifBlank { "No records found" }
 
     private fun saveInAPI(req: Request): String {
