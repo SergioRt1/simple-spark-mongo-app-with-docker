@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    image: mongo:3.6.1
+    container_name: db
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+      - 27017:27017
+    command: mongod
+  web:
+    image: sergiort1/simple-spark-mongo-app-with-docker:latest
+    container_name: web
+    ports:
+      - 34000:6000
+    depends_on:
+      - db
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+    ports:
+      - 4000:4000
+
+volumes:
+  mongodb:
+  mongodb_config:
