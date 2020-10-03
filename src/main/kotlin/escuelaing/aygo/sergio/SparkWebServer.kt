@@ -19,9 +19,7 @@ class SparkWebServer(private val wordsRepository: WordsRepository) {
             get("/words") { instance.getWordsFromAPI() }
         }
 
-        private fun getPort(): Int = if (System.getenv("PORT") != null) {
-            System.getenv("PORT").toInt()
-        } else 4567
+        private fun getPort(): Int = System.getenv("PORT")?.toInt() ?: 4567
     }
 
     private fun getWordsFromAPI(): String = wordsRepository.find(10).fold("") { acc, word ->

@@ -11,9 +11,8 @@ services:
     command: mongod
   web:
     image: sergiort1/simple-spark-mongo-app-with-docker:latest
-    container_name: web
-    ports:
-      - 34000:6000
+    expose:
+      - 6000
     depends_on:
       - db
   nginx:
